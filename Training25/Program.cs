@@ -3,24 +3,47 @@
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------
 // Program.cs
-// Program on main branch.
+// Program on T1 branch.
+// Program to convert decimal input to binary and hexadecimal.
 // ------------------------------------------------------------------------------------------------
+using System.Text;
+
+using static System.Console;
+
 namespace Training25;
+
 internal class Program {
    static void Main (string[] args) {
       do {
-         Console.Clear ();
-         Console.Write ("Input: ");
-         try {
-            var input = Convert.ToInt32 (Console.ReadLine ());
-            Console.WriteLine ("HEX: " + Convert.ToString (input, 16).ToUpper ());
-            Console.WriteLine ("Binary: " + Convert.ToString (input, 2));
-         } catch (Exception ex) {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.WriteLine ("Error: " + ex.Message);
-            Console.ResetColor ();
-         }
-         Console.WriteLine ("Press 'Y' to continue");
-      } while (Console.ReadKey (true).Key == ConsoleKey.Y);
+         Clear ();
+         Write ("Input: ");
+         var input = ReadLine ();
+         if (int.TryParse (input, out int num)) {
+            WriteLine ("BIN: " + ConvertToBinary (num));
+            WriteLine ("HEX: " + ConvertToHex (num));
+         } else
+            WriteLine ("Please enter an integer value!");
+         WriteLine ("Press 'Y' to continue");
+      } while (ReadKey (true).Key == ConsoleKey.Y);
    }
+
+   /// <summary>Returns the string of bits converted from decimal to base number system</summary>
+   public static string ConvertToBase (int numBase, int numVal) {
+      StringBuilder numConBuilder = new ();
+      int logTwo = (int)Math.Log2 (numBase);
+      for (; numVal > 0; numVal >>= logTwo) {
+         numConBuilder.Insert (0, ConvertToHexBit (numVal & (numBase - 1)));
+      }
+      return numConBuilder.ToString ();
+   }
+
+   /// <summary>Returns binary string from decimal input</summary>
+   public static string ConvertToBinary (int num) => ConvertToBase (2, num);
+
+   /// <summary>Returns hexadecimal string from decimal input</summary>
+   public static string ConvertToHex (int num) => ConvertToBase (16, num);
+
+   /// <summary>Returns character bit corresponsding to decimal number</summary>
+   public static char ConvertToHexBit (int rem) =>
+      (rem > 9) ? (char)(rem - 10 + 'A') : (char)(rem + '0');
 }
