@@ -24,7 +24,6 @@ internal class Program {
 
    /// <summary>Returns the string of bits converted from decimal to base number system</summary>
    public static string ConvertToBase (int cBase, int val) {
-      if (val == 0) return "0";
       StringBuilder builder = new ();
       int logTwo = (int)Math.Log2 (cBase);
       for (; val > 0; val >>= logTwo)
