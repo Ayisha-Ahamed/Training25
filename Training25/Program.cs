@@ -7,9 +7,7 @@
 // Program to convert decimal input to binary and hexadecimal.
 // ------------------------------------------------------------------------------------------------
 using System.Text;
-
 using static System.Console;
-
 namespace Training25;
 
 internal class Program {
@@ -17,12 +15,11 @@ internal class Program {
       do {
          Clear ();
          Write ("Input: ");
-         var input = ReadLine ();
-         if (int.TryParse (input, out int num)) {
-            WriteLine ("BIN: " + ConvertToBinary (num));
-            WriteLine ("HEX: " + ConvertToHex (num));
+         if (int.TryParse (ReadLine (), out int num) && num >= 0) {
+            WriteLine ("BIN: " + ConvertToBase (2, num));
+            WriteLine ("HEX: " + ConvertToBase (16, num));
          } else
-            WriteLine ("Please enter an integer value!");
+            WriteLine ("Please enter a positive integer!");
          WriteLine ("Press 'Y' to continue");
       } while (ReadKey (true).Key == ConsoleKey.Y);
    }
@@ -31,17 +28,10 @@ internal class Program {
    public static string ConvertToBase (int numBase, int numVal) {
       StringBuilder numConBuilder = new ();
       int logTwo = (int)Math.Log2 (numBase);
-      for (; numVal > 0; numVal >>= logTwo) {
-         numConBuilder.Insert (0, ConvertToHexBit (numVal & (numBase - 1)));
-      }
-      return numConBuilder.ToString ();
+      for (; numVal > 0; numVal >>= logTwo)
+         numConBuilder.Append (ConvertToHexBit (numVal & (numBase - 1)));
+      return numConBuilder.Length == 0 ? "0" : new string (numConBuilder.ToString ().Reverse ().ToArray ());
    }
-
-   /// <summary>Returns binary string from decimal input</summary>
-   public static string ConvertToBinary (int num) => ConvertToBase (2, num);
-
-   /// <summary>Returns hexadecimal string from decimal input</summary>
-   public static string ConvertToHex (int num) => ConvertToBase (16, num);
 
    /// <summary>Returns character bit corresponsding to decimal number</summary>
    public static char ConvertToHexBit (int rem) =>
