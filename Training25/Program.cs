@@ -13,6 +13,6 @@ internal class Program {
    static void Main (string[] args) {
       for (int i = 1; i < 11; i++, WriteLine ())
          for (int j = 1; j < 11; j++)
-            Console.WriteLine ($" {i,2} * {j,2} = {i * j,-2}");
+            WriteLine ($" {i,2} * {j,2} = {i * j,-2}");
    }
 }
