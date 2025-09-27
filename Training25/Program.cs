@@ -15,7 +15,7 @@ internal class Program {
       do {
          Clear ();
          Write ("Input: ");
-         if (int.TryParse (ReadLine (), out int num) && num > 0)
+         if (int.TryParse (ReadLine (), out int num) && num >= 0)
             WriteLine ($"BIN: {ConvertToBase (2, num)}\nHEX: {ConvertToBase (16, num)}");
          else WriteLine ("Please enter a positive integer!");
          WriteLine ("Press 'Y' to continue");
@@ -24,6 +24,7 @@ internal class Program {
 
    /// <summary>Returns the string of bits converted from decimal to base number system</summary>
    public static string ConvertToBase (int cBase, int val) {
+      if (val == 0) return "0";
       StringBuilder builder = new ();
       int logTwo = (int)Math.Log2 (cBase);
       for (; val > 0; val >>= logTwo)
