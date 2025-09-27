@@ -3,11 +3,31 @@
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------
 // Program.cs
-// Program on main branch.
+// Program on T7 branch.
+// Program to print Pascal's triangle.
 // ------------------------------------------------------------------------------------------------
+using static System.Console;
 namespace Training25;
+
 internal class Program {
    static void Main (string[] args) {
-      Console.WriteLine ("Hello, World!");
+      do {
+         Clear ();
+         Write ("Enter number of rows[1-25]: ");
+         if (int.TryParse (ReadLine (), out int rows) && rows <= 25) PrintTriangle (rows);
+         else WriteLine ("Please enter an integer value within 1-25");
+         WriteLine ("\nPress 'Y' to continue");
+      } while (ReadKey ().Key == ConsoleKey.Y);
+   }
+
+   /// <summary>Program to print Pascal's Triangle.</summary>
+   static void PrintTriangle (int rows) {
+      for (int i = 0; i < rows; i++, WriteLine ()) {
+         for (int j = 0; j < rows - i - 1; j++) Write (" ");
+         for (int k = 0, value = 1; k <= i; k++) {
+            Write (value + " ");
+            value = value * (i - k) / (k + 1);
+         }
+      }
    }
 }
