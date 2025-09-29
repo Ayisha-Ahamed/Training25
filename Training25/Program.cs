@@ -11,7 +11,7 @@ using static System.Console;
 namespace Training25;
 
 internal class Program {
-   static void Main (string[] args) {
+   static void Main () {
       do {
          Clear ();
          Write ("Input: ");
@@ -27,12 +27,11 @@ internal class Program {
       if (val == 0) return "0";
       StringBuilder builder = new ();
       int logTwo = (int)Math.Log2 (cBase);
-      for (; val > 0; val >>= logTwo)
-         builder.Append (ConvertToHexBit (val & (cBase - 1)));
+      for (; val > 0; val >>= logTwo) builder.Append (ConvertToHexBit (val & (cBase - 1)));
       return new string ([.. builder.ToString ().Reverse ()]);
    }
 
-   /// <summary>Returns character bit corresponsding to decimal number</summary>
+   /// <summary>Returns character bit corresponding to decimal number</summary>
    public static char ConvertToHexBit (int rem) =>
       (rem > 9) ? (char)(rem - 10 + 'A') : (char)(rem + '0');
 }
