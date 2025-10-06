@@ -10,26 +10,21 @@ using static System.Console;
 namespace Training25;
 
 internal class Program {
-   static void Main (string[] args) {
+   static void Main () {
       do {
          Clear ();
          Write ("Enter input: ");
-         if (int.TryParse (ReadLine (), out int num))
+         if (int.TryParse (ReadLine (), out int num) && num >= 0)
             WriteLine ($"Digital root of {num} is {DigitalRoot (num)}");
-         else WriteLine ("Please enter an integer!");
-         WriteLine ("Press 'Y' to continue");
+         else WriteLine ("Please enter a positive integer!");
+         Write ("Press 'Y' to continue");
       } while (ReadKey ().Key == ConsoleKey.Y);
    }
 
    /// <summary>Returns the digital root of the input.</summary>
    static int DigitalRoot (int num) {
-      int sum = 0;
-      num.ToString ().ToCharArray ().Sum (x => sum += (x - '0'));
-      while (sum > 9) {
-         int temp = 0;
-         sum.ToString ().ToCharArray ().Sum (x => temp += (x - '0'));
-         sum = temp;
-      }
+      int sum = num;
+      while (sum > 9) sum = sum.ToString ().ToCharArray ().Sum (x => x - '0');
       return sum;
    }
 }
