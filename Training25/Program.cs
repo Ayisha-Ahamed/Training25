@@ -11,30 +11,25 @@ using static System.Console;
 namespace Training25;
 
 internal class Program {
-   static void Main (string[] args) {
+   static void Main () {
       do {
          Clear ();
          Write ("Enter password: ");
          var input = ReadLine ();
-         if (!String.IsNullOrEmpty (input)) {
-            var regex = new Regex ("^(?!.*\\s)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-+]).+$"
-               + "^.{8,}$");
-            if (regex.IsMatch (input))
-               WriteLine ("Password is valid");
-            else {
-               if (input.Length < 8) WriteLine ("Password must have atleast 8 characters.");
-               if (!input.ToCharArray ().Any (x => (x >= 'a' && x <= 'z')))
-                  WriteLine ("Password must have atleast one upper case character.");
-               if (!input.ToCharArray ().Any (x => (x >= 'A' && x <= 'Z')))
-                  WriteLine ("Password must have atleast one lower case character.");
-               if (!input.ToCharArray ().Any (x => (x >= '0' && x <= '9')))
-                  WriteLine ("Password must have atleast one numeric character.");
-               if (!Regex.IsMatch (input, @"(?=.*[!@#$%^&*()-+)])"))
-                  WriteLine ("Password must have atleast one special character[!@#$%^&*()-+].");
-               if (input.Contains (' ')) WriteLine ("Password should not have any space characters");
-            }
+         if (!string.IsNullOrEmpty (input)) {
+            (bool, string)[] InvalidConditions = [
+               (input.Any (a => a == ' '),"Password must not include space characters"),
+               (input.Length < 8,"Password must have atleast 8 characters"),
+               (!input.Any (x => (x >= 'a' && x <= 'z')),"Password must have atleast one lower case character"),
+               (!input.Any (x => (x >= 'A' && x <= 'Z')),"Password must have atleast one upper case character"),
+               (!input.Any (x => (x >= '0' && x <= '9')),"Password must have atleast one numeric character"),
+               (!Regex.IsMatch (input, @"(?=.*[!@#$%^&*()-+)])"),
+               "Password must have atleast one special character[!@#$%^&*()-+]") ];
+            for (int i = 0; i < InvalidConditions.Length; i++)
+               if (InvalidConditions[i].Item1) WriteLine (InvalidConditions[i].Item2);
+            if (InvalidConditions.All (x => x.Item1 == false)) WriteLine ("Password is strong");
          } else WriteLine ("Please enter a valid string!");
-         WriteLine ("Press 'Y' to continue");
+         Write ("Press 'Y' to continue");
       } while (ReadKey (true).Key == ConsoleKey.Y);
    }
 }
