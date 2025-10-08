@@ -18,7 +18,7 @@ internal class Program {
             int.TryParse (ReadLine (), out int num2) && num2 > 0) {
             int gcd = GCD (num1, num2);
             WriteLine ($"GCD of {num1} and {num2} is {gcd}");
-            WriteLine ($"LCM of {num1} and {num2} is {LCM (gcd, num1, num2)}");
+            WriteLine ($"LCM of {num1} and {num2} is {(num1 * num2) / gcd}");
          } else WriteLine ("Please enter positive integers!");
          WriteLine ("Press 'Y' to continue");
       }
@@ -30,7 +30,4 @@ internal class Program {
       while (num2 != 0) (num1, num2) = (num2, num1 % num2);
       return num1;
    }
-
-   /// <summary>Returns LCM of two positive integers</summary>
-   static int LCM (int gcd, int num1, int num2) => (num1 * num2) / gcd;
 }
