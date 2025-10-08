@@ -13,26 +13,26 @@ internal class Program {
    static void Main () {
       do {
          Clear ();
-         Write ("Enter input: ");
+         Write ("Enter sequence of alphabetic characters: ");
          var input = ReadLine ();
          if (!string.IsNullOrEmpty (input) && input.All (char.IsLetter))
-            WriteLine ("Output: " + Reduce (input));
-         else WriteLine ("Please enter a valid input!");
+            WriteLine ("Reduced string: " + Reduce (input));
+         else WriteLine ("Please enter only alphabetic characters!");
          Write ("Press 'Y' to continue");
       } while (ReadKey (true).Key == ConsoleKey.Y);
    }
 
    static string Reduce (string str) {
-      int i = 0, len = str.Length;
-      string output = "";
+      int i = 0, len = str.Length - 1;
+      string result = "";
       // Process input string up to second last character.
-      while (i < len - 1) {
+      while (i < len) {
          // Increment index to exclude pairs of adjacent characters.
          if (str[i] == str[i + 1]) i += 2;
-         else output += str[i++];
+         else result += str[i++];
       }
       // Include last character in output if updated index is within bounds of array.
-      if (i == len - 1) output += str[i];
-      return output;
+      if (i == len) result += str[i];
+      return result;
    }
 }
