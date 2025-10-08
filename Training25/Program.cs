@@ -3,8 +3,8 @@
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------
 // Program.cs
-// Program on T1 branch.
-// Program to convert decimal input to binary and hexadecimal.
+// Program on main branch.
+// T1: Program to convert decimal input to binary and hexadecimal.
 // ------------------------------------------------------------------------------------------------
 using System.Text;
 using static System.Console;
