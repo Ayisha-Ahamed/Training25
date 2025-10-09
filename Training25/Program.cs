@@ -15,16 +15,12 @@ internal class Program {
       OutputEncoding = new UnicodeEncoding ();
       WriteLine ("┏━━━┳━━━┳━━━┳━━━┳━━━┳━━━┳━━━┳━━━┓");
       PrintRow ("♜♞♝♛♚♝♞♜");
-      char[] pawns = { '♟', '♙' };
+      string pawns = "♟♙";
       for (int i = 0; i < 13; i++)
          // In even iterations print line separator.
          if ((i & 1) == 0) WriteLine ("\n┣━━━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━┫");
-         else {
-            char rChar = ' ';
-            // Print black or white pawns for i = 1 or i = 11 respectively.
-            if (i % 10 == 1) rChar = pawns[0 + (i / 10)];
-            PrintRow (string.Concat (Enumerable.Repeat (rChar, 8)));
-         }
+         // Print black or white pawns for i = 1 or i = 11 respectively.
+         else PrintRow (new string (i % 10 == 1 ? pawns[i / 10] : ' ', 8));
       PrintRow ("♖♘♗♕♔♗♘♖");
       WriteLine ("\n┗━━━┻━━━┻━━━┻━━━┻━━━┻━━━┻━━━┻━━━┛");
    }
