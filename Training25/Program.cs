@@ -23,9 +23,10 @@ internal class Program {
    /// <summary>Program to print Pascal's Triangle.</summary>
    static void PrintTriangle (int rows) {
       for (int i = 0; i < rows; i++) {
-         Write (string.Concat (Enumerable.Repeat (" ", rows - i - 1)));
+         Write (new string (' ', rows - i - 1));
          for (int k = 0, value = 1; k <= i; k++) {
-            Write (value + " ");
+            Write ($"{value} ");
+            // Using *= could truncate integer division to zero.
             value = value * (i - k) / (k + 1);
          }
          WriteLine ();
