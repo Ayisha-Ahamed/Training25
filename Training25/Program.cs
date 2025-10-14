@@ -21,11 +21,15 @@ internal class Program {
                && input.Any (char.IsUpper) && input.Any (char.IsNumber) &&
                Regex.IsMatch (input, @"(?=.*[!@#$%^&*()-+])"))
                WriteLine ("Password is strong");
-            else WriteLine ("Invalid password!\n" + "Password must have atleast 6 characters\n" +
-                  "Password must not include space characters\nPassword must have atleast one " +
-                  "lower case character\nPassword must have atleast one upper case character\n" +
-                  "Password must have atleast one numeric character\n" +
-                  "Password must have atleast one special character\n");
+            else WriteLine ("""
+               Invalid password!
+               Password must have atleast 6 characters
+               Password must not include space characters
+               Password must have atleast one lower case character
+               Password must have atleast one upper case character
+               Password must have atleast one numeric character
+               Password must have atleast one special character
+               """);
          } else WriteLine ("Please enter a non-empty string!");
          Write ("Press 'Y' to continue");
       } while (ReadKey (true).Key == ConsoleKey.Y);
