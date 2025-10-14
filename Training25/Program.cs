@@ -18,7 +18,7 @@ internal class Program {
             WriteLine ($"Digital root of {num} is {DigitalRoot (num)}");
          else WriteLine ("Please enter a positive integer!");
          Write ("Press 'Y' to continue");
-      } while (ReadKey ().Key == ConsoleKey.Y);
+      } while (ReadKey (true).Key == ConsoleKey.Y);
    }
 
    /// <summary>Returns the digital root of the input.</summary>
