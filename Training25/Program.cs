@@ -22,14 +22,13 @@ internal class Program {
       } while (ReadKey (true).Key == ConsoleKey.Y);
    }
 
+   // Returns reduced string by removing pairs of adjacent letters.
    static string Reduce (string str) {
-      int i = 0, len = str.Length - 1;
       string result = "";
-      // Process input string up to second last character.
-      while (i <= len) {
-         // Increment index to exclude pairs of adjacent characters.
-         if (i + 1 <= len && str[i] == str[i + 1]) i += 2;
-         else result += str[i++];
+      for (int i = 1, len = str.Length; i <= len; i++) {
+         // Increment index if adjacent characters are equal.
+         if (i < len && str[i] == str[i - 1]) i++;
+         else result += str[i - 1];
       }
       return result;
    }
