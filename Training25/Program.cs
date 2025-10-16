@@ -16,7 +16,7 @@ internal class Program {
          Write ("Enter sequence of alphabetic characters: ");
          var input = ReadLine ();
          if (!string.IsNullOrEmpty (input) && input.All (char.IsLetter))
-            WriteLine ("Reduced string: " + Reduce (input));
+            WriteLine ($"Reduced string: {Reduce (input)}");
          else WriteLine ("Please enter only alphabetic characters!");
          Write ("Press 'Y' to continue");
       } while (ReadKey (true).Key == ConsoleKey.Y);
