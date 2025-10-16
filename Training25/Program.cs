@@ -21,13 +21,17 @@ internal class Program {
       } while (ReadKey (true).Key == ConsoleKey.Y);
    }
 
+   // Returns the reversed input string without altering spaces and capitalization.
    static string Reverse (string str) {
-      List<char> chars = new ([.. str.Where (a => a != ' ').Reverse ()]);
-      for (int i = 0, len = str.Length; i < len; i++) {
-         if (char.IsWhiteSpace (str[i])) chars.Insert (i, str[i]);
-         else if (char.IsUpper (str[i])) chars[i] = char.ToUpper (chars[i]);
-         else chars[i] = char.ToLower (chars[i]);
+      List<char> chars = [.. str.Where (a => !char.IsWhiteSpace (a))], reverse = [];
+      for (int i = 0, j = 0, count = chars.Count - 1, len = str.Length; i < len; i++) {
+         switch (str[i]) {
+            case ' ': reverse.Insert (i, str[i]); break;
+            // Ascii values of 'A' and 'a' are 65 and 97 respectively i.e 'a' > 'A'
+            case >= 'a': reverse.Add (char.ToLower (chars[count - j])); j++; break;
+            default: reverse.Add (char.ToUpper (chars[count - j])); j++; break;
+         }
       }
-      return new string ([.. chars]);
+      return new string ([.. reverse]);
    }
 }
