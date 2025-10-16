@@ -26,13 +26,11 @@ internal class Program {
       int i = 0, len = str.Length - 1;
       string result = "";
       // Process input string up to second last character.
-      while (i < len) {
+      while (i <= len) {
          // Increment index to exclude pairs of adjacent characters.
-         if (str[i] == str[i + 1]) i += 2;
+         if (i + 1 <= len && str[i] == str[i + 1]) i += 2;
          else result += str[i++];
       }
-      // Include last character in output if updated index is within bounds of array.
-      if (i == len) result += str[i];
       return result;
    }
 }
