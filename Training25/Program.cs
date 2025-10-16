@@ -20,17 +20,17 @@ internal class Program {
             if (input.Length >= 6 && !input.Any (char.IsWhiteSpace) && input.Any (char.IsLower)
                && input.Any (char.IsUpper) && input.Any (char.IsNumber) &&
                Regex.IsMatch (input, @"(?=.*[!@#$%^&*()-+])"))
-               WriteLine ("Password is strong");
+               WriteLine ("Password is strong.");
             else WriteLine ("""
-               Invalid password!
-               Password must have atleast 6 characters
-               Password must not include space characters
-               Password must have atleast one lower case character
-               Password must have atleast one upper case character
-               Password must have atleast one numeric character
-               Password must have atleast one special character
+               Password is invalid. Please ensure it includes:
+               - Atleast 6 characters
+               - No spaces
+               - Atleast one lower case character (a-z)
+               - Atleast one upper case character (A-Z)
+               - Atleast one number (0-9)
+               - Atleast one special character (!@#$%^&*()-+)
                """);
-         } else WriteLine ("Please enter a non-empty string!");
+         } else WriteLine ("Password cannot be empty.");
          Write ("Press 'Y' to continue");
       } while (ReadKey (true).Key == ConsoleKey.Y);
    }
