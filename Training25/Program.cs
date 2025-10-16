@@ -3,8 +3,8 @@
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------
 // Program.cs
-// Program on T11 branch.
-// Program to find if a number is an armstrong number.
+// Program on main branch.
+// T11: Program to find if a number is an armstrong number.
 // ------------------------------------------------------------------------------------------------
 using static System.Console;
 namespace Training25;
@@ -18,14 +18,15 @@ internal class Program {
             WriteLine ($"{num} is {(IsArmstrong (num) ? "" : "not ")}an armstrong number");
          else WriteLine ("Please enter a positive integer!");
          Write ("Press 'Y' to continue");
-      } while (ReadKey ().Key == ConsoleKey.Y);
+      } while (ReadKey (true).Key == ConsoleKey.Y);
    }
 
-   static bool IsArmstrong (int input) {
-      double sum = 0, num = input, pow = input.ToString ().Length;
-      while (input > 0) {
-         sum += Math.Pow (input % 10, pow);
-         input /= 10;
+   // Returns if the input number is an armstrong number.
+   static bool IsArmstrong (int num) {
+      int sum = 0, quotient = num, pow = num.ToString ().Length;
+      while (quotient > 0) {
+         sum += (int)Math.Pow (quotient % 10, pow);
+         quotient /= 10;
       }
       return sum == num;
    }
