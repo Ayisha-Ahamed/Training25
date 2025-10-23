@@ -6,6 +6,7 @@
 // T12: Program to find the winner with the most votes.
 // ------------------------------------------------------------------------------------------------
 using static System.Console;
+
 namespace Training25;
 
 internal class Program {
