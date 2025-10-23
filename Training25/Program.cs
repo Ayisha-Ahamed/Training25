@@ -14,9 +14,17 @@ namespace Training25;
 internal class Program {
 
    static void Main () {
+      const string msg = """
+               Ensure input is of the following format:
+               ([a, b, c, a, c, b, d], a, "descending")
+                         A             S        O
+               A - Character array - string of letters separated by comma + space
+               S - Special character
+               O - Sort order (optional)
+               """;
       do {
          Clear ();
-         Write ("Enter string: ");
+         Write (msg + "\nEnter string: ");
          var input = ReadLine () ?? "";
          if (!string.IsNullOrEmpty (input) &&
             Regex.IsMatch (input, @"\(\[(.*?)\], \w(, ""(ascending|descending)"")?\)")) {
@@ -26,17 +34,9 @@ internal class Program {
             if (arr.All (char.IsLetter)) {
                char spl = str[1][0]; string order = str[1][1..];
                WriteLine (SortAndSwap (arr, spl, order == "\"descending\""));
-            } else WriteLine ("Invalid format! Please enter string of letters separated by \", \" " +
-               "inside the character array");
-         } else
-            WriteLine ("""
-               Invalid Format! Please ensure the input is of the following format:
-               ([a, b, c, a, c, b, d], a, "descending")
-                         A             S        O
-               A - Character array - string of letters separated by comma + space
-               S - Special character
-               O - Sort order
-               """);
+            } else WriteLine ("Invalid format! Please enter string of letters separated by " +
+               "\", \" inside the character array");
+         } else WriteLine ("Invalid Format! Please try again!");
          Write ("Press 'Y' to continue");
       } while (ReadKey (true).Key == ConsoleKey.Y);
    }
@@ -46,9 +46,8 @@ internal class Program {
    static string SortAndSwap (string str, char splChar, bool isDescending) {
       var arr = str.Where (a => a != splChar);
       int sCount = str.Length - arr.Count ();
-      // If special character is not an element in the array.
+      // Check if special character is an element in the array.
       var sArr = sCount == 0 ? "" : ',' + string.Join (",", Enumerable.Repeat (splChar, sCount));
-      if (isDescending) return string.Join (",", arr.OrderDescending ()) + sArr;
-      return string.Join (",", arr.Order ()) + sArr;
+      return string.Join (",", isDescending ? arr.OrderDescending () : arr.Order ()) + sArr;
    }
 }
