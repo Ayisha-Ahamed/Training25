@@ -3,7 +3,6 @@
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------
 // Program.cs
-// Program on main branch.
 // T10: Program to reverse input string.
 // ------------------------------------------------------------------------------------------------
 using static System.Console;
@@ -14,9 +13,9 @@ internal class Program {
       do {
          Clear ();
          Write ("Enter string: ");
-         var input = ReadLine ();
-         if (!string.IsNullOrEmpty (input)) WriteLine ($"Reversed string: {Reverse (input)}");
-         else WriteLine ("Please enter atleast one character!");
+         var input = ReadLine () ?? "";
+         if (input.Length > 1) WriteLine ($"Reversed string: {Reverse (input)}");
+         else WriteLine ("Please enter string of characters!");
          Write ("Press 'Y' to continue");
       } while (ReadKey (true).Key == ConsoleKey.Y);
    }
@@ -25,11 +24,11 @@ internal class Program {
    static string Reverse (string str) {
       List<char> chars = [.. str.Where (a => !char.IsWhiteSpace (a))], reverse = [];
       for (int i = 0, j = 0, count = chars.Count - 1, len = str.Length; i < len; i++) {
-         switch (str[i]) {
-            case ' ': reverse.Insert (i, str[i]); break;
-            // Ascii values of 'A' and 'a' are 65 and 97 respectively i.e 'a' > 'A'
-            case >= 'a': reverse.Add (char.ToLower (chars[count - j])); j++; break;
-            default: reverse.Add (char.ToUpper (chars[count - j])); j++; break;
+         if (char.IsWhiteSpace (str[i])) reverse.Insert (i, str[i]);
+         // Ascii values of 'A' and 'a' are 65 and 97 respectively i.e 'a' > 'A'
+         else {
+            reverse.Add (str[i] >= 'a' ? char.ToLower (chars[count - j]) :
+               char.ToUpper (chars[count - j])); j++;
          }
       }
       return new string ([.. reverse]);
