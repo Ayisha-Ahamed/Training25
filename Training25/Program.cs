@@ -3,31 +3,28 @@
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------
 // Program.cs
-// Program on T11.1 branch.
-// Program to find nth Armstrong number.
+// T11.1: Program that gets number n from command line and prints nth Armstrong number.
 // ------------------------------------------------------------------------------------------------
 using static System.Console;
 namespace Training25;
 
 internal class Program {
    static void Main (string[] args) {
-      if (args.Length == 1 && int.TryParse (args[0], out int num) && num > 0 && num < 30)
-         WriteLine (Armstrong (num));
-      else WriteLine ("Please enter a valid input[1-29]");
+      if (args.Length == 1 && int.TryParse (args[0], out int num) && num > 0 && num < 29)
+         WriteLine (GetNthArmstrong (num));
+      else WriteLine ("Please enter a valid input[1-28]");
    }
 
-   static int Armstrong (int input) {
+   // Returns nth armstrong number.
+   static int GetNthArmstrong (int n) {
       int count = 0, num = 0;
-      for (; count < input; num++) if (IsArmstrong (num)) count++;
+      for (; count < n; num++) if (IsArmstrong (num)) count++;
       return num - 1;
    }
 
-   static bool IsArmstrong (int input) {
-      double sum = 0, num = input, pow = input.ToString ().Length;
-      while (input > 0) {
-         sum += Math.Pow (input % 10, pow);
-         input /= 10;
-      }
-      return sum == num;
+   // Returns if a number is an armstrong number.
+   static bool IsArmstrong (int num) {
+      string str = num.ToString ();
+      return str.Select (a => (int)Math.Pow (a - '0', str.Length)).Sum () == num;
    }
 }
