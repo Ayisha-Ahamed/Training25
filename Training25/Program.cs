@@ -6,6 +6,7 @@
 // T11: Program to print if the input number is an armstrong number.
 // ------------------------------------------------------------------------------------------------
 using static System.Console;
+
 namespace Training25;
 
 internal class Program {
@@ -23,6 +24,6 @@ internal class Program {
    // Returns if the input number is an armstrong number.
    static bool IsArmstrong (int num) {
       string str = num.ToString ();
-      return str.Select (a => (int)Math.Pow (a - '0', str.Length)).Sum () == num;
+      return str.Sum (a => (int)Math.Pow (a - '0', str.Length)) == num;
    }
 }
