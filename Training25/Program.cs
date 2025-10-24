@@ -27,8 +27,8 @@ internal class Program {
          if (char.IsWhiteSpace (str[i])) reverse.Insert (i, str[i]);
          // Ascii values of 'A' and 'a' are 65 and 97 respectively i.e 'a' > 'A'
          else {
-            reverse.Add (str[i] >= 'a' ? char.ToLower (chars[count - j]) :
-               char.ToUpper (chars[count - j])); j++;
+            char ch = chars[count - j];
+            reverse.Add (str[i] >= 'a' ? char.ToLower (ch) : char.ToUpper (ch)); j++;
          }
       }
       return new string ([.. reverse]);
