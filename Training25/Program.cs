@@ -25,10 +25,10 @@ internal class Program {
       List<char> chars = [.. str.Where (a => !char.IsWhiteSpace (a))], reverse = [];
       for (int i = 0, j = 0, count = chars.Count - 1, len = str.Length; i < len; i++) {
          if (char.IsWhiteSpace (str[i])) reverse.Insert (i, str[i]);
-         // Ascii values of 'A' and 'a' are 65 and 97 respectively i.e 'a' > 'A'
          else {
-            char ch = chars[count - j];
-            reverse.Add (str[i] >= 'a' ? char.ToLower (ch) : char.ToUpper (ch)); j++;
+            char ch = chars[count - j++];
+            // Ascii values of 'A' and 'a' are 65 and 97 respectively i.e 'a' > 'A'.
+            reverse.Add (str[i] >= 'a' ? char.ToLower (ch) : char.ToUpper (ch));
          }
       }
       return new string ([.. reverse]);
