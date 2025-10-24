@@ -6,6 +6,7 @@
 // T11.1: Program that gets number n from command line and prints nth Armstrong number.
 // ------------------------------------------------------------------------------------------------
 using static System.Console;
+
 namespace Training25;
 
 internal class Program {
@@ -25,6 +26,6 @@ internal class Program {
    // Returns if a number is an armstrong number.
    static bool IsArmstrong (int num) {
       string str = num.ToString ();
-      return str.Select (a => (int)Math.Pow (a - '0', str.Length)).Sum () == num;
+      return str.Sum (a => (int)Math.Pow (a - '0', str.Length)) == num;
    }
 }
