@@ -18,13 +18,13 @@ internal class Program {
                Ensure input is of the following format:
                ([a, b, c, a, c, b, d], a, "descending")
                          A             S        O
-               A - Character array - string of letters separated by comma + space
+               A - Character array - string of letters separated by comma(',') and space(' ')
                S - Special character
                O - Sort order (optional)
                """;
       do {
          Clear ();
-         Write (msg + "\nEnter string: ");
+         Write ($"{msg}\nEnter string: ");
          var input = ReadLine () ?? "";
          if (!string.IsNullOrEmpty (input) &&
             Regex.IsMatch (input, @"\(\[(.*?)\], \w(, ""(ascending|descending)"")?\)")) {
@@ -34,8 +34,7 @@ internal class Program {
             if (arr.All (char.IsLetter)) {
                char spl = str[1][0]; string order = str[1][1..];
                WriteLine (SortAndSwap (arr, spl, order == "\"descending\""));
-            } else WriteLine ("Invalid format! Please enter string of letters separated by " +
-               "\", \" inside the character array");
+            } else WriteLine ("Invalid format! Please refer format for character array(A)!");
          } else WriteLine ("Invalid Format! Please try again!");
          Write ("Press 'Y' to continue");
       } while (ReadKey (true).Key == ConsoleKey.Y);
