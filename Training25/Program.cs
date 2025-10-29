@@ -22,15 +22,16 @@ internal class Program {
 
    // Returns the reversed input string without altering spaces and capitalization.
    static string Reverse (string str) {
-      List<char> chars = [.. str.Where (a => !char.IsWhiteSpace (a))], reverse = [];
-      for (int i = 0, j = 0, count = chars.Count - 1, len = str.Length; i < len; i++) {
-         if (char.IsWhiteSpace (str[i])) reverse.Insert (i, str[i]);
+      // Remove space characters from string.
+      char[] letters = [.. str.Where (a => !char.IsWhiteSpace (a))], reverse = new char[str.Length];
+      int nLetters = letters.Length; // Numbers of letters in the string.
+      for (int i = 0; i < str.Length && nLetters > 0; i++) {
+         if (char.IsWhiteSpace (str[i])) reverse[i] = str[i];
          else {
-            char ch = chars[count - j++];
-            // Ascii values of 'A' and 'a' are 65 and 97 respectively i.e 'a' > 'A'.
-            reverse.Add (str[i] >= 'a' ? char.ToLower (ch) : char.ToUpper (ch));
+            char ch = letters[--nLetters];
+            reverse[i] = (char.IsLower (str[i]) ? char.ToLower (ch) : char.ToUpper (ch));
          }
       }
-      return new string ([.. reverse]);
+      return new string (reverse);
    }
 }
