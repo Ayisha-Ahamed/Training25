@@ -18,7 +18,7 @@ internal class Program {
                Ensure input is of the following format:
                ([a, b, c, a, c, b, d], a, "descending")
                          A             S        O
-               A - Character array - string of letters separated by comma(',') and space(' ')
+               A - Character array with atleast 2 letters
                S - Special character
                O - Sort order (optional)
                """;
@@ -26,10 +26,11 @@ internal class Program {
          Clear ();
          Write ($"{msg}\nEnter string: ");
          var input = ReadLine () ?? "";
-         if (!string.IsNullOrEmpty (input) &&
-            Regex.IsMatch (input, @"\(\[(.*?)\], \w(, ""(ascending|descending)"")?\)")) {
-            input = input[2..^1];
-            var str = input.Replace (", ", "").Split (']');
+         // Regex for validating character array A, special character S and optional sort order.
+         Regex regex = new (@"\((\[([a-zA-z],\s?)+[a-zA-z]\]),\s?([a-zA-z])(,\s?""(ascending|descending)"")?\)");
+         if (!string.IsNullOrEmpty (input) && regex.IsMatch (input)) {
+            input = input[2..^1].Replace (" ", "").Replace (",", "");
+            var str = input.Split (']');
             var arr = str[0];
             if (arr.All (char.IsLetter)) {
                char spl = str[1][0]; string order = str[1][1..];
@@ -43,8 +44,8 @@ internal class Program {
    // Returns the sorted array of letters.
    // Letters that match the special character are added at the end, if any.
    static string SortAndSwap (string str, char splChar, bool isDescending) {
-      var arr = str.Where (a => a != splChar);
-      int sCount = str.Length - arr.Count ();
+      var arr = str.Where (a => a != splChar).ToList ();
+      int sCount = str.Length - arr.Count;
       // Check if special character is an element in the array.
       var sArr = sCount == 0 ? "" : ',' + string.Join (",", Enumerable.Repeat (splChar, sCount));
       return string.Join (",", isDescending ? arr.OrderDescending () : arr.Order ()) + sArr;
