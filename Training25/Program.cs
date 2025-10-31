@@ -6,28 +6,23 @@
 // Program that implements custom MyList<T> class using arrays as the underlying data structure. 
 // ------------------------------------------------------------------------------------------------
 using static System.Console;
+
 namespace Training25;
 
 internal class Program {
    static void Main () {
-      var list = new MyList<int> (10, 10, 20);
-      Write ("Initial list: ");
-      list.Print ();
-      Write ("After inserting 40 at 2nd index position: ");
-      list.Insert (2, 40);
-      list.Print ();
-      WriteLine ($"Element at index position 2 is: {list[2]}");
-      Write ("After inserting 30 at 3rd index position: ");
+      var list = new MyList<int> (10, 20, 30, 40, 50);
+      WriteLine ($"Initial list: {list.ListInfo ()}");
+      list.Add (70);
+      WriteLine ($"After adding 70 to the list(capacity doubled): {list.ListInfo ()}");
       list.Insert (3, 30);
-      list.Print ();
-      Write ("After removing first instance of element 10: ");
+      WriteLine ($"After inserting 30 at 3rd index position: {list.ListInfo ()}");
       list.Remove (10);
-      list.Print ();
-      Write ("After removing element at index position 2: ");
+      WriteLine ($"After removing first instance of element 10: {list.ListInfo ()}");
       list.RemoveAt (2);
-      list.Print ();
+      WriteLine ($"After removing element at index position 2: {list.ListInfo ()}");
       list.Clear (); // Clear all elements from the array.
-      list.Print ();
+      WriteLine ($"After clearing the list: {list.ListInfo ()}");
    }
 
    class MyList<T> {
@@ -60,7 +55,7 @@ internal class Program {
 
       /// <summary>Adds element at the end of the array.</summary>
       public void Add (T item) {
-         if (Count == Capacity) Array.Resize (ref mArray, Capacity * 2);
+         ResizeIfFull ();
          mArray[mCount++] = item;
       }
 
@@ -68,7 +63,9 @@ internal class Program {
       public bool Remove (T a) {
          int index = Array.IndexOf (mArray, a);
          if (index < 0) return false;
-         RemoveAt (index);
+         ResizeIfFull ();
+         for (int i = index; i < mCount; i++) mArray[i] = mArray[i + 1];
+         mCount--;
          return true;
       }
 
@@ -77,12 +74,13 @@ internal class Program {
          if (mCount == 0) return;
          Array.Clear (mArray);
          mCount = 0;
+         mArray = [];
       }
 
       /// <summary>Insert element at index position.</summary>
       public void Insert (int index, T a) {
          if (index < 0 || index > mCount) throw new ArgumentOutOfRangeException ();
-         if (Count == Capacity) Array.Resize (ref mArray, Capacity * 2);
+         ResizeIfFull ();
          for (int i = mCount; i > index; i--) mArray[i] = mArray[i - 1];
          mArray[index] = a;
          mCount++;
@@ -90,17 +88,21 @@ internal class Program {
 
       /// <summary>Removes element at index position.</summary>
       public void RemoveAt (int index) {
-         if (index < 0 || index > mCount - 1) throw new ArgumentOutOfRangeException ();
-         if (Count == Capacity) Array.Resize (ref mArray, Capacity * 2);
-         for (int i = index; i < mCount; i++) mArray[i] = mArray[i + 1];
-         mCount--;
+         if (index < 0 || index >= mCount) throw new ArgumentOutOfRangeException ();
+         Remove (mArray[index]);
       }
 
       /// <summary>Prints all elements in array, if any.</summary>
-      public void Print () {
-         if (Count == 0) return;
-         for (int i = 0; i < Count; i++) Write ($"{mArray[i]} ");
-         WriteLine ();
+      public string ListInfo () {
+         string str = "\n";
+         for (int i = 0; i < Count; i++) str += $"{mArray[i]} ";
+         str += $"{(mCount > 0 ? "\n" : "")}Count: {Count} Capacity: {Capacity}";
+         return str;
+      }
+
+      // Increases capacity of array if the array is full.
+      void ResizeIfFull () {
+         if (Count == Capacity) Array.Resize (ref mArray, Capacity * 2);
       }
    }
 }
