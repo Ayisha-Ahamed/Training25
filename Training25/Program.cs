@@ -11,6 +11,10 @@ namespace Training25;
 
 internal class Program {
    static void Main () {
+      if (!TestResize ()) {
+         WriteLine ("Test failed!!");
+         return;
+      }
       var list = new MyList<int> (10, 20, 30, 40, 50);
       WriteLine ($"Initial list: {list.ListInfo ()}");
       list.Add (70);
@@ -23,6 +27,21 @@ internal class Program {
       WriteLine ($"After removing element at index position 2: {list.ListInfo ()}");
       list.Clear (); // Clear all elements from the array.
       WriteLine ($"After clearing the list: {list.ListInfo ()}");
+   }
+
+   static bool TestResize () {
+      // Initialize an empty list with capacity to hold 5 elements(default array capacity in MyList).
+      var tList = new MyList<int> ();
+      if (tList.Count != 0 || tList.Capacity != 5) return false;
+      // Fill the array up to its default capacity.
+      for (int i = 0; i < 5; i++) tList.Add (i);
+      int count = tList.Count, capacity = tList.Capacity;
+      if (count != 5 || count != capacity) return false;
+      tList.Add (5);
+      // Check whether adding elements above the default capacity doubles the capacity of the array.
+      if (tList.Capacity != (2 * capacity)) return false;
+      return true;
+
    }
 
    class MyList<T> {
@@ -74,7 +93,7 @@ internal class Program {
          if (mCount == 0) return;
          Array.Clear (mArray);
          mCount = 0;
-         mArray = [];
+         mArray = new T[5]; // Set array capacity to default.
       }
 
       /// <summary>Insert element at index position.</summary>
