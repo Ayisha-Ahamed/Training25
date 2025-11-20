@@ -15,59 +15,68 @@ internal class Program {
          WriteLine ("Test failed!!");
          return;
       }
-      var list = new MyList<int> (10, 20, 30, 40, 50);
-      WriteLine ($"Initial list: {list.ListInfo ()}");
+      var list = new MyList<int> (10, 20, 30, 40);
+      list.Display ();
+      WriteLine ($"After adding 70 to the list(capacity doubled): ");
       list.Add (70);
-      WriteLine ($"After adding 70 to the list(capacity doubled): {list.ListInfo ()}");
+      list.Display ();
+      WriteLine ($"After inserting 30 at 3rd index position: ");
       list.Insert (3, 30);
-      WriteLine ($"After inserting 30 at 3rd index position: {list.ListInfo ()}");
-      list.Remove (10);
-      WriteLine ($"After removing first instance of element 10: {list.ListInfo ()}");
+      list.Display ();
+      WriteLine ($"After removing first instance of element 30: ");
+      list.Remove (30);
+      list.Display ();
+      WriteLine ($"After removing element at index position 2: ");
       list.RemoveAt (2);
-      WriteLine ($"After removing element at index position 2: {list.ListInfo ()}");
-      list.Clear (); // Clear all elements from the array.
-      WriteLine ($"After clearing the list: {list.ListInfo ()}");
+      list.Display ();
+      WriteLine ($"After clearing the list: ");
+      list.Clear ();
+      list.Display ();
    }
 
    static bool TestResize () {
-      // Initialize an empty list with capacity to hold 5 elements(default array capacity in MyList).
+      // Initialize an empty list
       var tList = new MyList<int> ();
-      if (tList.Count != 0 || tList.Capacity != 5) return false;
+      if (tList.Count != 0 || tList.Capacity != 4) return false;
       // Fill the array up to its default capacity.
-      for (int i = 0; i < 5; i++) tList.Add (i);
+      for (int i = 0; i < 4; i++) tList.Add (i);
       int count = tList.Count, capacity = tList.Capacity;
-      if (count != 5 || count != capacity) return false;
-      tList.Add (5);
-      // Check whether adding elements above the default capacity doubles the capacity of the array.
+      if (count != 4 || count != capacity) return false;
+      tList.Add (4);
+      // Check whether adding elements above the default capacity doubles the capacity.
       if (tList.Capacity != (2 * capacity)) return false;
       return true;
-
    }
 
    class MyList<T> {
-      int mCount;
-      T[] mArray;
-      // Constructor to initialize array with zero elements and capacity to hold 5 elements.
+
+      #region Constructor--------------------------------------------------------------------------
+      // Default constructor.
+      public MyList () { }
+
+      // Construtor to add paramter elements to the list on initialization.
       public MyList (params T[] items) {
-         mCount = 0;
-         mArray = new T[5]; // Initiaize an array of size 5.
          foreach (T item in items) Add (item);
       }
+      #endregion-----------------------------------------------------------------------------------
 
+      #region Properties---------------------------------------------------------------------------
       // Gets the count of elements in list.
       public int Count => mCount;
 
       // Gets the capacity of array.
       public int Capacity => mArray.Length;
+      #endregion-----------------------------------------------------------------------------------
 
+      #region Methods------------------------------------------------------------------------------
       /// <summary>Gets or sets element at given index position.</summary>
       public T this[int index] {
          get {
-            if (index < 0 || index >= Count) throw new IndexOutOfRangeException ();
+            ThrowIfOutOfRange (index);
             return mArray[index];
          }
          set {
-            if (index < 0 || index > Capacity) throw new IndexOutOfRangeException ();
+            ThrowIfOutOfRange (index);
             mArray[index] = value;
          }
       }
@@ -82,9 +91,8 @@ internal class Program {
       public bool Remove (T a) {
          int index = Array.IndexOf (mArray, a);
          if (index < 0) return false;
-         ResizeIfFull ();
-         for (int i = index; i < mCount; i++) mArray[i] = mArray[i + 1];
-         mCount--;
+         for (int i = index; i < mCount - 1; i++) mArray[i] = mArray[i + 1];
+         mArray[--mCount] = default; // Reset the last index position to default value of type T.
          return true;
       }
 
@@ -93,7 +101,6 @@ internal class Program {
          if (mCount == 0) return;
          Array.Clear (mArray);
          mCount = 0;
-         mArray = new T[5]; // Set array capacity to default.
       }
 
       /// <summary>Insert element at index position.</summary>
@@ -112,16 +119,28 @@ internal class Program {
       }
 
       /// <summary>Prints all elements in array, if any.</summary>
-      public string ListInfo () {
-         string str = "\n";
-         for (int i = 0; i < Count; i++) str += $"{mArray[i]} ";
-         str += $"{(mCount > 0 ? "\n" : "")}Count: {Count} Capacity: {Capacity}";
-         return str;
+      public void Display () {
+         for (int i = 0; i < Count; i++) Write ($"{mArray[i]} ");
+         WriteLine ($"{(mCount > 0 ? "\n" : "")}Count: {Count} Capacity: {Capacity}");
       }
+      #endregion-----------------------------------------------------------------------------------
 
+      #region Private Data ------------------------------------------------------------------------
+      // Initalize an empty array with capacity to hold four elements.
+      int mCount = 0;
+      T[] mArray = new T[4];
+      #endregion ----------------------------------------------------------------------------------
+
+      #region Private Methods----------------------------------------------------------------------
       // Increases capacity of array if the array is full.
       void ResizeIfFull () {
          if (Count == Capacity) Array.Resize (ref mArray, Capacity * 2);
       }
+
+      // Throws an exception if the index value is out of range.
+      void ThrowIfOutOfRange (int index) {
+         if (index < 0 || index >= Count) throw new IndexOutOfRangeException ();
+      }
+      #endregion-----------------------------------------------------------------------------------
    }
 }
